@@ -88,17 +88,45 @@ set(h,'numbertitle','off')
 set(h, 'name', 'Задание д');
 hold on;
 bar(centers, f_emp, 1, 'facecolor', 'r');
-plot(x_vals, f_theor, 'LineWidth', 2, 'color', 'b');
+plot(x_vals, f_theor, 'linewidth', 2, 'color', 'b');
+grid;
 
 fprintf('\nЗадание е\n');
 fprintf('График в окне "Задание е"\n');
 
+uniq_x = unique(x);
+uniq_n = length(uniq_x);
+uniq_nums = histc(x, uniq_x);
+
+t = zeros(uniq_n + 2, 1);
+t(1) = Mmin - 1;
+t(uniq_n + 2) = Mmax + 1;
+
+for i = 2:uniq_n+1
+    t(i) = uniq_x(i - 1);
+endfor
+
+F_emp = zeros(uniq_n + 1, 1);
+cnt = 0;
+
+for i = 1:uniq_n
+    F_emp(i) = cnt / n;
+    cnt += uniq_nums(i);
+endfor
+
+F_emp(uniq_n + 1) = cnt / n;
+F_emp(uniq_n + 2) = cnt / n;
+
+x_vals = (Mmin-1:1e-3:Mmax+1);
 F_theor = normcdf(x_vals, mu, sigma);
 
 g = figure();
-set(g,'numbertitle','off')
+set(g, 'numbertitle', 'off')
 set(g, 'name', 'Задание е');
-plot(x_vals, F_theor, 'LineWidth', 10);
+hold on;
+plot(x_vals, F_theor, 'linewidth', 4, 'color', 'b');
+stairs(t, F_emp, 'linewidth', 2, 'color', 'r');
+grid;
 
 waitfor(h);
 waitfor(g);
