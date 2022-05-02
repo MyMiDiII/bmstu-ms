@@ -42,6 +42,9 @@
 \usepackage{enumitem}
 \renewcommand{\labelitemi}{$-$}
 \setlist{nosep, leftmargin=\parindent}
+\makeatletter
+\AddEnumerateCounter{\asbuk}{\russian@alph}{щ}
+\makeatother
 
 % Text
 \usepackage{amstext}
