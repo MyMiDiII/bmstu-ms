@@ -1,3 +1,5 @@
+pkg load statistics
+
 x = [11.89,9.60,9.29,10.06,9.50,8.93,9.58,6.81,8.69,9.62,...
      9.01,10.59,10.50,11.53,9.94,8.84,8.91,6.90,9.76,7.09,...
      11.29,11.25,10.84,10.76,7.42,8.49,10.10,8.79,11.87,8.77,...
@@ -18,35 +20,32 @@ fprintf('Задание а\n');
 Mmax = max(x);
 Mmin = min(x);
 
-fprintf('M_max = %f\n', Mmax);
-fprintf('M_min = %f\n\n', Mmin);
+fprintf('M_max = %6.3f\n', Mmax);
+fprintf('M_min = %6.3f\n', Mmin);
 
-fprintf('Задание б\n');
+fprintf('\nЗадание б\n');
 
 R = Mmax - Mmin;
 
-fprintf('R = %f\n\n', R)
+fprintf('R = %5.3f\n', R)
 
-fprintf('Задание в\n');
+fprintf('\nЗадание в\n');
 
 mu = sum(x) / n;
 sqrS = sum((x - mu) .^ 2) / (n - 1);
 
-fprintf('mu = %f\n', mu);
-fprintf('S^2 = %f\n\n', sqrS);
+fprintf('mu  = %5.3f\n', mu);
+fprintf('S^2 = %5.3f\n', sqrS);
 
-fprintf('Задание г\n');
+fprintf('\nЗадание г\n');
 
 m = floor(log2(n)) + 2;
-
-Delta = (Mmax - Mmin) / m;
 
 limit_points = linspace(Mmin, Mmax, m + 1);
 
 fprintf('m = %d\n', m);
-fprintf('delta = %f\n', Delta);
 
-nums = zeros(m);
+nums = zeros(m, 1);
 
 for i = 1:m
   left = limit_points(i);
@@ -63,12 +62,24 @@ endfor
 nums(m)++;
 
 for i = 1:m
-  fprintf('Interval [%f, %f%c (%d elements).\n', limit_points(i),...
+  fprintf('В интервале [%6.3f, %6.3f%c %2d элементов.\n', limit_points(i),...
          limit_points(i + 1), ifelse(i == m, ']', ')'), nums(i));
 endfor
 
-sigma = sqrt(sqrS);
+fprintf('\nЗадание д\n');
+fprintf('График в окне "Задание д"\n');
 
+centers = zeros(m, 1);
+f_emp   = zeros(m, 1);
+
+Delta = (Mmax - Mmin) / m;
+
+for i = 1:m
+    centers(i) = (limit_points(i) + limit_points(i + 1)) / 2;
+    f_emp(i)   = nums(i) / (n * Delta);
+endfor
+
+sigma = sqrt(sqrS);
 x_vals = (Mmin:1e-3:Mmax);
 f_theor = normpdf(x_vals, mu, sigma);
 
@@ -76,7 +87,11 @@ h = figure();
 set(h,'numbertitle','off')
 set(h, 'name', 'Задание д');
 hold on;
-plot(x_vals, f_theor, 'LineWidth', 10);
+bar(centers, f_emp, 1, 'facecolor', 'r');
+plot(x_vals, f_theor, 'LineWidth', 2, 'color', 'b');
+
+fprintf('\nЗадание е\n');
+fprintf('График в окне "Задание е"\n');
 
 F_theor = normcdf(x_vals, mu, sigma);
 
@@ -84,3 +99,6 @@ g = figure();
 set(g,'numbertitle','off')
 set(g, 'name', 'Задание е');
 plot(x_vals, F_theor, 'LineWidth', 10);
+
+waitfor(h);
+waitfor(g);
