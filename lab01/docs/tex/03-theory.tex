@@ -7,30 +7,32 @@
 
 Максимальное и минимальное значения выборки:
 \begin{align}\label{eq:01}
-    M_{max} = x_{(n)},\\
-    M_{min} = x_{(1)},
+    M_{max} &= x_{(n)} = \max\{x_1, ..., x_n\},\\
+    M_{min} &= x_{(1)} = \min\{x_1, ..., x_n\},
 \end{align}
 
-где $x_{(1)}, x_{(n)}$ --- крайние члены вариационного ряда, отвечающего
-выборке~$\vec{x}$.
+\noindentгде $x_{(1)}, x_{(n)}$ --- крайние члены вариационного ряда,
+отвечающего выборке~$\vec{x}$.
 
 Размах выборки:
 
 \begin{equation}\label{eq:03}
-    R = M_{max} - M_{min}
+    R = M_{max} - M_{min}.
 \end{equation}
 
-Оценки математического ожидания и дисперсии:
+Оценка математического ожидания --- выборочное среднее:
 
 \begin{equation}\label{eq:04}
-    \hat{\mu}(\vec{x}) = \frac{1}{n}\sum_{i=1}^{n} x_i
+    \hat{\mu}(\vec{x}) = \frac{1}{n}\sum_{i=1}^{n} x_i.
 \end{equation}
+
+Оценка дисперсии --- исправленная выборочная дисперсия:
 
 \begin{equation}\label{eq:05}
     S^2(\vec x) = \frac 1{n-1} \sum_{i=1}^n (x_i-\overline x)^2,
 \end{equation}
 
-где $\overline x = \hat \mu$.
+\noindentгде $\overline x = \hat \mu$.
 
 \section{Определение эмпирической плотности и гистограммы}
 
