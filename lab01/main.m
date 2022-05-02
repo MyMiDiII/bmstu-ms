@@ -15,35 +15,24 @@ x = [11.89,9.60,9.29,10.06,9.50,8.93,9.58,6.81,8.69,9.62,...
 
 n = length(x);
      
-fprintf('Задание а\n');
+fprintf('Задания а-в\n');
 
 Mmax = max(x);
 Mmin = min(x);
-
-fprintf('M_max = %6.3f\n', Mmax);
-fprintf('M_min = %6.3f\n', Mmin);
-
-fprintf('\nЗадание б\n');
-
 R = Mmax - Mmin;
-
-fprintf('R = %5.3f\n', R)
-
-fprintf('\nЗадание в\n');
-
 mu = sum(x) / n;
 sqrS = sum((x - mu) .^ 2) / (n - 1);
 
+fprintf('M_max = %6.3f\n', Mmax);
+fprintf('M_min = %6.3f\n', Mmin);
+fprintf('R = %5.3f\n', R)
 fprintf('mu  = %5.3f\n', mu);
 fprintf('S^2 = %5.3f\n', sqrS);
 
 fprintf('\nЗадание г\n');
 
 m = floor(log2(n)) + 2;
-
 limit_points = linspace(Mmin, Mmax, m + 1);
-
-fprintf('m = %d\n', m);
 
 nums = zeros(m, 1);
 
@@ -56,11 +45,11 @@ for i = 1:m
       nums(i)++;
     endif
   endfor
-  
 endfor
 
 nums(m)++;
 
+fprintf('m = %d\n', m);
 for i = 1:m
   fprintf('В интервале [%6.3f, %6.3f%c %2d элементов.\n', limit_points(i),...
          limit_points(i + 1), ifelse(i == m, ']', ')'), nums(i));
@@ -84,8 +73,7 @@ x_vals = (Mmin:1e-3:Mmax);
 f_theor = normpdf(x_vals, mu, sigma);
 
 h = figure();
-set(h,'numbertitle','off')
-set(h, 'name', 'Задание д');
+set(h, 'numbertitle', 'off', 'name', 'Задание д');
 hold on;
 bar(centers, f_emp, 1, 'facecolor', 'r');
 plot(x_vals, f_theor, 'linewidth', 2, 'color', 'b');
@@ -121,8 +109,7 @@ x_vals = (Mmin-1:1e-3:Mmax+1);
 F_theor = normcdf(x_vals, mu, sigma);
 
 g = figure();
-set(g, 'numbertitle', 'off')
-set(g, 'name', 'Задание е');
+set(g, 'numbertitle', 'off', 'name', 'Задание е');
 hold on;
 plot(x_vals, F_theor, 'linewidth', 4, 'color', 'b');
 stairs(t, F_emp, 'linewidth', 2, 'color', 'r');
