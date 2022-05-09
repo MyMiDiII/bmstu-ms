@@ -12,8 +12,14 @@ x = [11.89,9.60,9.29,10.06,9.50,8.93,9.58,6.81,8.69,9.62,...
      9.27,9.69,10.90,8.84,11.10,8.19,9.26,9.93,10.15,8.42,...
      9.36,9.93,9.11,9.07,7.21,8.22,9.08,8.88,8.71,9.93,...
      12.04,10.41,10.80,7.17,9.00,9.46,10.42,10.43,8.38,9.01];
-
+     sort(x)
+x = 8*[x zeros(1,100)+50 zeros(1,100)+105 zeros(1,200)];
+x = [x zeros(1,200)+600];
 n = length(x);
+
+from = 0;
+to = 1000;
+step = 1e-1;
      
 fprintf('Задания а-в\n');
 
@@ -47,7 +53,7 @@ for i = 1:m
   endfor
 endfor
 
-nums(m)++;
+nums(m) += histc(x, Mmax);
 
 fprintf('m = %d\n', m);
 for i = 1:m
@@ -69,7 +75,7 @@ for i = 1:m
 endfor
 
 sigma = sqrt(sqrS);
-x_vals = (Mmin:1e-3:Mmax);
+x_vals = (from:step:to);
 f_theor = normpdf(x_vals, mu, sigma);
 
 h = figure();
@@ -77,6 +83,7 @@ set(h, 'numbertitle', 'off', 'name', 'Задание д');
 hold on;
 bar(centers, f_emp, 1, 'facecolor', 'r');
 plot(x_vals, f_theor, 'linewidth', 2, 'color', 'b');
+xlim([from,to]);
 grid;
 
 fprintf('\nЗадание е\n');
@@ -87,8 +94,8 @@ uniq_n = length(uniq_x);
 uniq_nums = histc(x, uniq_x);
 
 t = zeros(uniq_n + 2, 1);
-t(1) = Mmin - 1;
-t(uniq_n + 2) = Mmax + 1;
+t(1) = from;
+t(uniq_n + 2) = to;
 
 for i = 2:uniq_n+1
     t(i) = uniq_x(i - 1);
@@ -105,7 +112,7 @@ endfor
 F_emp(uniq_n + 1) = cnt / n;
 F_emp(uniq_n + 2) = cnt / n;
 
-x_vals = (Mmin-1:1e-3:Mmax+1);
+x_vals = (from:step:to);
 F_theor = normcdf(x_vals, mu, sigma);
 
 g = figure();
@@ -113,6 +120,7 @@ set(g, 'numbertitle', 'off', 'name', 'Задание е');
 hold on;
 plot(x_vals, F_theor, 'linewidth', 4, 'color', 'b');
 stairs(t, F_emp, 'linewidth', 2, 'color', 'r');
+xlim([from,to]);
 grid;
 
 waitfor(h);
