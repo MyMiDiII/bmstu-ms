@@ -13,14 +13,15 @@ x = [11.89,9.60,9.29,10.06,9.50,8.93,9.58,6.81,8.69,9.62,...
      9.36,9.93,9.11,9.07,7.21,8.22,9.08,8.88,8.71,9.93,...
      12.04,10.41,10.80,7.17,9.00,9.46,10.42,10.43,8.38,9.01];
      sort(x)
-x = 8*[x zeros(1,100)+50 zeros(1,100)+105 zeros(1,200)];
-x = [x zeros(1,200)+600];
+%x = 8*[x zeros(1,100)+50 zeros(1,100)+105 zeros(1,200)];
+%x = [x zeros(1,200)+600];
+     x = [x zeros(1,100)+14];
 n = length(x);
 
-from = 0;
-to = 1000;
+from = min(x)-3;
+to = max(x)+3;
 step = 1e-1;
-     
+
 fprintf('Задания а-в\n');
 
 Mmax = max(x);
@@ -45,7 +46,7 @@ nums = zeros(m, 1);
 for i = 1:m
   left = limit_points(i);
   right = limit_points(i + 1);
-  
+
   for j = 1:n
     if x(j) >= left && x(j) < right
       nums(i)++;
