@@ -13,22 +13,11 @@ x = [11.89,9.60,9.29,10.06,9.50,8.93,9.58,6.81,8.69,9.62,...
      9.36,9.93,9.11,9.07,7.21,8.22,9.08,8.88,8.71,9.93,...
      12.04,10.41,10.80,7.17,9.00,9.46,10.42,10.43,8.38,9.01];
 
+gamma = 0.9;
+begin = 10;
+
 n = length(x);
 
-cnt = 0;
-
-while !cnt
-    fprintf('Введите gamma: ');
-    [gamma, cnt] = scanf('%f', 1);
-
-    if !cnt || gamma > 1 || gamma < 0
-        tmp = scanf('%s', 'C');
-        fprintf('%d\n', cnt);
-        fprintf('gamma in [0, 1]\n');
-        cnt = 0;
-    endif
-endwhile
-     
 fprintf('gamma = %.2f\n', gamma);
 
 fprintf('\nЗадание 1.а/2\n');
@@ -89,24 +78,24 @@ fprintf('(%5.6f, %5.6f)\n', lower_sigma2, upper_sigma2);
 fprintf('\nЗадание 3.a\n');
 fprintf('График в отдельном окне\n');
 
-hat_mu_x_N = zeros(n, 1) + mu;
-hat_mu_x_n = zeros(n, 1);
-low_mu = zeros(n, 1);
-up_mu  = zeros(n, 1);
+hat_mu_x_N = zeros(n - begin + 1, 1) + mu;
+hat_mu_x_n = zeros(n - begin + 1, 1);
+low_mu = zeros(n - begin + 1, 1);
+up_mu  = zeros(n - begin + 1, 1);
 
-for i=1:n
+for i=begin:n
     cur_x = x(1:i);
-    hat_mu_x_n(i) = sample_mean(cur_x);
-    [low_mu(i), up_mu(i)] = get_mx_confidence(cur_x, gamma);
+    hat_mu_x_n(i-begin+1) = sample_mean(cur_x);
+    [low_mu(i-begin+1), up_mu(i-begin+1)] = get_mx_confidence(cur_x, gamma);
 endfor
 
 h = figure();
 set(h, 'numbertitle', 'off', 'name', 'Задание 3.а');
 hold on;
-plot(1:n, hat_mu_x_N, 'color', 'g', 'linewidth', 2);
-plot(1:n, hat_mu_x_n, 'color', 'b', 'linewidth', 2);
-plot(1:n, low_mu,     'color', 'm', 'linewidth', 2);
-plot(1:n, up_mu,      'color', 'r', 'linewidth', 2);
+plot(begin:n, hat_mu_x_N, 'color', 'g', 'linewidth', 2);
+plot(begin:n, hat_mu_x_n, 'color', 'b', 'linewidth', 2);
+plot(begin:n, low_mu,     'color', 'm', 'linewidth', 2);
+plot(begin:n, up_mu,      'color', 'r', 'linewidth', 2);
 l = legend('y = \mu_{hat}(x⃗_N)', 'y = \mu_{hat}(x⃗_n)',
            'y = \mu_{low}(x⃗_n)', 'y = \mu_{up}(x⃗_n)');
 set(l, 'interpreter', 'tex', 'fontsize', 16);
@@ -114,8 +103,6 @@ grid;
 
 fprintf('\nЗадание 3.б\n');
 fprintf('График в отдельном окне\n');
-
-begin = 4;
 
 S_x_N = zeros(n - begin + 1, 1) + sqrS;
 S_x_n = zeros(n - begin + 1, 1);
@@ -131,10 +118,10 @@ endfor
 g = figure();
 set(g, 'numbertitle', 'off', 'name', 'Задание 3.б');
 hold on;
-plot(1:n-begin+1, S_x_N,    'color', 'g', 'linewidth', 2);
-plot(1:n-begin+1, S_x_n,    'color', 'b', 'linewidth', 2);
-plot(1:n-begin+1, low_sig2, 'color', 'm', 'linewidth', 2);
-plot(1:n-begin+1, up_sig2,  'color', 'r', 'linewidth', 2);
+plot(begin:n, S_x_N,    'color', 'g', 'linewidth', 2);
+plot(begin:n, S_x_n,    'color', 'b', 'linewidth', 2);
+plot(begin:n, low_sig2, 'color', 'm', 'linewidth', 2);
+plot(begin:n, up_sig2,  'color', 'r', 'linewidth', 2);
 l = legend('z = S^2(x⃗_N)', 'z = S^2(x⃗_n)',
            'z = \sigma^2_{low}(x⃗_n)', 'z = \sigma^2_{up}(x⃗_n)');
 set(l, 'interpreter', 'tex', 'fontsize', 16);
